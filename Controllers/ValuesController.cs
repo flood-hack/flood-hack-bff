@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace flood_hackathon.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api")]
     [ApiController]
     public class ValuesController : ControllerBase
     {
