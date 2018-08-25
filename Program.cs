@@ -19,14 +19,13 @@ namespace flood_hackathon
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                // .ConfigureAppConfiguration((hostingContext, config) =>
-                // {
-                //     var env = hostingContext.HostingEnvironment;
-                //     config
-                //         .SetBasePath(Directory.GetCurrentDirectory())
-                //         .AddJsonFile("appsettings.secrets.json", optional: true)
-                //         .AddEnvironmentVariables();
-                // })
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    var env = hostingContext.HostingEnvironment;
+                    config
+                        .AddJsonFile("appsettings.secrets.json", optional: true)
+                        .AddEnvironmentVariables();
+                })
                 .UseStartup<Startup>()
                 .UseUrls("https://localhost:8003");
     }
