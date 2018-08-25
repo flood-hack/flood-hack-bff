@@ -51,7 +51,7 @@ namespace flood_hackathon.DataAccess
 
         public SearchIndex(IOptions<SearchIndexSettings> settings)
         {
-            _settings = settings.Value;
+            _settings = settings.Value ?? throw new ArgumentNullException(nameof(settings));
         }
 
         public async Task MergeOrUploadSearchData(IEnumerable<ToolIndexContent> documents, CancellationToken cancellationToken)
