@@ -19,11 +19,9 @@ namespace flood_hackathon.Controllers
     public class ToolsController : ControllerBase
     {
         private ToolsService _toolsService;
-        private IConfiguration _config;
-        public ToolsController(ToolsService toolsService, IConfiguration config)
+        public ToolsController(ToolsService toolsService)
         {
             _toolsService = toolsService;
-            _config = config;
         }
 
         [HttpGet]
@@ -69,11 +67,10 @@ namespace flood_hackathon.Controllers
 
         [HttpGet]
         [Route("test")]
-        public async Task<IActionResult> GetInfo()
+        public async Task<IActionResult> GetInfo(CancellationToken cancellationToken)
         {
-
-            var test = _config.GetChildren().Select(c => new { c.Value, c.Key, c.Path });
-            return new ObjectResult(test);
+            await _toolsService.DeleteTool("test", cancellationToken);
+            return Ok();
         }
     }
 }

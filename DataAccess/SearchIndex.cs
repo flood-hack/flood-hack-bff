@@ -67,6 +67,8 @@ namespace flood_hackathon.DataAccess
                 cancellationToken.ThrowIfCancellationRequested();
             }
 
+            await SearchIndexClient.Documents.CountAsync();
+
             throw new NotImplementedException();
         }
 

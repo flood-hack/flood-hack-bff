@@ -29,7 +29,6 @@ namespace flood_hackathon
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var origins = new List<string>() { "http://localhost:4200", "https://flood-hack.azurewebsites.net/" };
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddCors();
             services.Configure<CorsOptions>(options =>
@@ -59,8 +58,6 @@ namespace flood_hackathon
             {
                 app.UseHsts();
             }
-
-
 
             app.UseCors("AllowCredentials");
             app.UseHttpsRedirection();
