@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using flood_hackathon.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace flood_hackathon.Controllers
@@ -10,36 +11,37 @@ namespace flood_hackathon.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        public ValuesController()
+        {
+
+        }
+
         // GET api/values
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        [Route("search")]
+        public async Task<IActionResult> Search([FromQuery] QueryParams query)
         {
-            return new string[] { "value1", "value2" };
+
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void AddTool([FromBody] string value)
         {
+
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPatch]
+        [Route("{id}")]
+        public void UpdateTool(int id, [FromBody] string value)
         {
+
         }
 
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("{id}")]
         public void Delete(int id)
         {
+
         }
     }
 }

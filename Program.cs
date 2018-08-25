@@ -19,6 +19,13 @@ namespace flood_hackathon
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    var env = hostingContext.HostingEnvironment;
+                    config
+                        .AddJsonFile("appsettings.secrets.json", optional: true);
+                })
+                .UseStartup<Startup>()
+                .UseUrls("https://localhost:8003");
     }
 }
