@@ -40,7 +40,7 @@ namespace flood_hackathon.Services
 
         public async Task DeleteTool(string id, CancellationToken cancellationToken)
         {
-
+            await _searchAdapter.DeleteTool(id, cancellationToken);
         }
 
         #region Mappers
