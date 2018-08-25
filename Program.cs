@@ -23,7 +23,8 @@ namespace flood_hackathon
                 {
                     var env = hostingContext.HostingEnvironment;
                     config
-                        .AddJsonFile("appsettings.secrets.json", optional: true);
+                        .AddJsonFile("appsettings.secrets.json", optional: true)
+                        .AddEnvironmentVariables();
                 })
                 .UseStartup<Startup>()
                 .UseUrls("https://localhost:8003");

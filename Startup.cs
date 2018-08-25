@@ -31,7 +31,7 @@ namespace flood_hackathon
         {
             var origins = new List<string>() { "http://localhost:4200", "https://flood-hack.azurewebsites.net/" };
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            // services.AddCors();
+            services.AddCors();
             services.Configure<CorsOptions>(options =>
             {
                 options.AddPolicy("AllowCredentials", b =>
@@ -59,6 +59,8 @@ namespace flood_hackathon
             {
                 app.UseHsts();
             }
+
+
 
             app.UseCors("AllowCredentials");
             app.UseHttpsRedirection();
