@@ -8,6 +8,8 @@ using Microsoft.Azure.Search.Models;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using flood_hackathon.Models;
+using flood_hackathon.Models.Requests;
+using System.Threading;
 
 namespace flood_hackathon.DataAccess
 {
@@ -52,22 +54,27 @@ namespace flood_hackathon.DataAccess
             _settings = settings.Value;
         }
 
-        public async Task MergeOrUploadSearchData(IEnumerable<ToolIndexContent> documents)
+        public async Task MergeOrUploadSearchData(IEnumerable<ToolIndexContent> documents, CancellationToken cancellationToken)
         {
             var postBatch = IndexBatch.MergeOrUpload(documents);
-            await SearchIndexClient.Documents.IndexAsync(postBatch);
+            await SearchIndexClient.Documents.IndexAsync(postBatch, null, cancellationToken);
         }
 
-        public async Task DeleteSearchData(string id)
+        public async Task DeleteSearchData(string id, CancellationToken cancellationToken)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+            }
+
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<ToolIndexContent>> QueryToolIndex(string query)
+        public async Task<IEnumerable<ToolIndexContent>> QueryToolIndex(string query, CancellationToken cancellationToken)
         {
             try
             {
-                DocumentSearchResult<ToolIndexContent> docs = await SearchIndexClient.Documents.SearchAsync<ToolIndexContent>(query);
+                DocumentSearchResult<ToolIndexContent> docs = await SearchIndexClient.Documents.SearchAsync<ToolIndexContent>(query, null, null, cancellationToken);
                 return docs.Results.Cast<ToolIndexContent>();
             }
             catch (Exception e)

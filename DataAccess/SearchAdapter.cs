@@ -1,31 +1,33 @@
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using flood_hackathon.Models;
+using flood_hackathon.Models.Requests;
 
 namespace flood_hackathon.DataAccess
 {
     public class SearchAdapter : ISearchAdapter
     {
-        private SearchIndex _searchIndex;
+        private ISearchIndex _searchIndex;
 
-        public SearchAdapter(SearchIndex searchIndex)
+        public SearchAdapter(ISearchIndex searchIndex)
         {
             _searchIndex = searchIndex;
         }
 
-        public async Task AddUpdateTool(IEnumerable<ToolIndexContent> toolIndexContent)
+        public async Task AddUpdateTool(IEnumerable<ToolIndexContent> addEditToolReqest, CancellationToken cancellationToken)
         {
-            await _searchIndex.MergeOrUploadSearchData(toolIndexContent);
+            await _searchIndex.MergeOrUploadSearchData(addEditToolReqest, cancellationToken);
         }
 
-        public async Task DeleteTool(string id)
+        public async Task DeleteTool(string id, CancellationToken cancellationToken)
         {
-            await _searchIndex.DeleteSearchData(id);
+            await _searchIndex.DeleteSearchData(id, cancellationToken);
         }
 
-        public async Task<IEnumerable<ToolIndexContent>> QueryTools(string query)
+        public async Task<IEnumerable<ToolIndexContent>> QueryTools(string query, CancellationToken cancellationToken)
         {
-            return await _searchIndex.QueryToolIndex(query);
+            return await _searchIndex.QueryToolIndex(query, cancellationToken);
         }
     }
 }
