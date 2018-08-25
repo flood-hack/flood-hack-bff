@@ -9,6 +9,7 @@ using flood_hackathon.Models.Responses;
 using flood_hackathon.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace flood_hackathon.Controllers
 {
@@ -18,9 +19,11 @@ namespace flood_hackathon.Controllers
     public class ToolsController : ControllerBase
     {
         private ToolsService _toolsService;
-        public ToolsController(ToolsService toolsService)
+        private IConfiguration _config;
+        public ToolsController(ToolsService toolsService, IConfiguration config)
         {
             _toolsService = toolsService;
+            _config = config;
         }
 
         [HttpGet]
@@ -62,6 +65,13 @@ namespace flood_hackathon.Controllers
         {
             await _toolsService.DeleteTool(id, cancellationToken);
             return NoContent();
+        }
+
+        [HttpGet]
+        [Route("test")]
+        public async Task<IActionResult> GetInfo()
+        {
+            return new ObjectResult(_config.ToString());
         }
     }
 }
