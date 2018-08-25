@@ -72,7 +72,7 @@ namespace flood_hackathon.Controllers
         public async Task<IActionResult> GetInfo()
         {
 
-            var test = _config.GetChildren().Select(c => c.Value);
+            var test = _config.GetChildren().Select(c => new { c.Value, c.Key, c.Path });
             return new ObjectResult(test);
         }
     }
