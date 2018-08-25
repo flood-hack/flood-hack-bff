@@ -71,7 +71,9 @@ namespace flood_hackathon.Controllers
         [Route("test")]
         public async Task<IActionResult> GetInfo()
         {
-            return new ObjectResult(_config.GetSection("APPSETTING_SearchService"));
+
+            var test = _config.GetChildren().Select(c => c.Value);
+            return new ObjectResult(test);
         }
     }
 }
