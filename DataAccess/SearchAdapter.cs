@@ -25,7 +25,7 @@ namespace flood_hackathon.DataAccess
             await _searchIndex.DeleteSearchData(id, cancellationToken);
         }
 
-        public async Task<IEnumerable<ToolIndexContent>> QueryTools(string query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ToolIndexContent>> QueryTools(QueryParams query, CancellationToken cancellationToken)
         {
             return await _searchIndex.QueryToolIndex(query, cancellationToken);
         }

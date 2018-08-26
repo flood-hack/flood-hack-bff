@@ -22,9 +22,9 @@ namespace flood_hackathon.Services
             return await Task.FromResult<ToolIndexContent>(new ToolIndexContent());
         }
 
-        public async Task<IEnumerable<ToolIndexContent>> GetTools(QueryParams query, CancellationToken CancellationToken)
+        public async Task<IEnumerable<ToolIndexContent>> GetTools(QueryParams query, CancellationToken cancellationToken)
         {
-            return await Task.FromResult<IEnumerable<ToolIndexContent>>(new List<ToolIndexContent>());
+            return await _searchAdapter.QueryTools(query, cancellationToken);
         }
 
         public async Task AddTool(AddEditToolRequest request, CancellationToken CancellationToken)
@@ -50,6 +50,7 @@ namespace flood_hackathon.Services
             return new ToolIndexContent()
             {
                 Id = Guid.NewGuid().ToString(),
+                Url = request.Url,
                 Name = request.Name,
                 Description = request.Description,
                 Issues = request.Issues.Select(i => i.ToString()),

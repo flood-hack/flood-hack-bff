@@ -12,6 +12,6 @@ namespace flood_hackathon.DataAccess
 
         Task DeleteSearchData(string id, CancellationToken cancellationToken);
 
-        Task<IEnumerable<ToolIndexContent>> QueryToolIndex(string query, CancellationToken cancellationToken);
+        Task<IEnumerable<ToolIndexContent>> QueryToolIndex(QueryParams query, CancellationToken cancellationToken);
     }
 }
