@@ -127,7 +127,7 @@ namespace flood_hackathon.DataAccess
                 filterString.Append("regions/any(r: search.in(r, '");
                 foreach (var region in query.Regions)
                 {
-                    filterString.Append($"{region.ToString()}|");
+                    filterString.Append($"{region.ToString()}, ");
                 }
 
                 filterString.Length = filterString.Length - 2;
@@ -139,7 +139,7 @@ namespace flood_hackathon.DataAccess
                 filterString.Append("toolFunctions/any(tf: search.in(tf, '");
                 foreach (var tf in query.ToolFunctions)
                 {
-                    filterString.Append($"{tf.ToString()}|");
+                    filterString.Append($"{tf.ToString()}, ");
                 }
                 filterString.Length = filterString.Length - 2;
                 filterString.Append("')) or ");
