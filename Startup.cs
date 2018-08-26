@@ -14,6 +14,7 @@ using Microsoft.Extensions.Options;
 using flood_hackathon.DataAccess;
 using flood_hackathon.Models;
 using flood_hackathon.Services;
+using flood_hackathon.Clients;
 
 namespace flood_hackathon
 {
@@ -39,9 +40,11 @@ namespace flood_hackathon
             });
 
             services.Configure<SearchIndexSettings>(Configuration.GetSection("SearchService"));
+            services.Configure<SocialSettings>(Configuration.GetSection("Social"));
             services.AddScoped<ToolsService>();
             services.AddSingleton<ISearchIndex, SearchIndex>();
             services.AddSingleton<ISearchAdapter, SearchAdapter>();
+            services.AddSingleton<SocialClient>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
