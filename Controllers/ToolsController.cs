@@ -36,6 +36,7 @@ namespace flood_hackathon.Controllers
         }
 
         [HttpGet]
+        [Route("search")]
         public async Task<IActionResult> GetTools([FromQuery] QueryParams query, CancellationToken cancellationToken)
         {
             var tools = await _toolsService.GetTools(query, cancellationToken);

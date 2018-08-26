@@ -26,6 +26,10 @@ namespace flood_hackathon.Models
         public string Description { get; set; }
 
         [IsRetrievable(true)]
+        [JsonProperty("url")]
+        public string Url { get; set; }
+
+        [IsRetrievable(true)]
         [IsFilterable]
         [JsonProperty("issues")]
         public IEnumerable<string> Issues { get; set; }

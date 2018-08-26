@@ -5,6 +5,8 @@ namespace flood_hackathon.Models.Requests
 {
     public class AddEditToolRequest
     {
+        public string Url { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }

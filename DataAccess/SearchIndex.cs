@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using flood_hackathon.Models;
 using flood_hackathon.Models.Requests;
 using System.Threading;
+using System.Text;
 
 namespace flood_hackathon.DataAccess
 {
@@ -72,17 +73,85 @@ namespace flood_hackathon.DataAccess
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<ToolIndexContent>> QueryToolIndex(string query, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ToolIndexContent>> QueryToolIndex(QueryParams query, CancellationToken cancellationToken)
         {
+            SearchParameters parameters = GenerateSearchParameters(query);
             try
             {
-                DocumentSearchResult<ToolIndexContent> docs = await SearchIndexClient.Documents.SearchAsync<ToolIndexContent>(query, null, null, cancellationToken);
-                return docs.Results.Cast<ToolIndexContent>();
+                DocumentSearchResult<ToolIndexContent> docs = await SearchIndexClient.Documents.SearchAsync<ToolIndexContent>(query.SearchText, parameters, null, cancellationToken);
+                return docs.Results.Select(doc =>
+                {
+                    return new ToolIndexContent()
+                    {
+                        Id = doc.Document.Id,
+                        Name = doc.Document.Name,
+                        Description = doc.Document.Description,
+                        Issues = doc.Document.Issues,
+                        ToolFunctions = doc.Document.ToolFunctions,
+                        Regions = doc.Document.Regions,
+                        Url = doc.Document.Url
+                    };
+                });
             }
             catch (Exception e)
             {
                 throw e;
             }
+        }
+
+        private SearchParameters GenerateSearchParameters(QueryParams query)
+        {
+            var searchParams = new SearchParameters();
+
+            if (String.IsNullOrEmpty(query.SearchText))
+            {
+                searchParams.SearchFields = new[] { "name", "description" };
+            }
+
+            var filterString = new StringBuilder();
+
+            if (query.Issues?.Count() > 0)
+            {
+                filterString.Append("issues/any(i: search.in(i, '");
+                foreach (var issue in query.Issues)
+                {
+                    filterString.Append($"{issue.ToString()}, ");
+                }
+                filterString.Length = filterString.Length - 2;
+                filterString.Append("')) or ");
+
+            }
+
+            if (query.Regions?.Count() > 0)
+            {
+                filterString.Append("regions/any(r: search.in(r, '");
+                foreach (var region in query.Regions)
+                {
+                    filterString.Append($"{region.ToString()}|");
+                }
+
+                filterString.Length = filterString.Length - 2;
+                filterString.Append("')) or ");
+            }
+
+            if (query.ToolFunctions?.Count() > 0)
+            {
+                filterString.Append("toolFunctions/any(tf: search.in(tf, '");
+                foreach (var tf in query.ToolFunctions)
+                {
+                    filterString.Append($"{tf.ToString()}|");
+                }
+                filterString.Length = filterString.Length - 2;
+                filterString.Append("')) or ");
+            }
+
+            if (filterString.Length > 0)
+            {
+                filterString.Length = filterString.Length - 4;
+                searchParams.Filter = filterString.ToString();
+            }
+
+            return searchParams;
         }
     }
 }
