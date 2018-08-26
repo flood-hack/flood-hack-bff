@@ -16,7 +16,6 @@ namespace flood_hackathon.Controllers
 {
     [Route("api/tools")]
     [ApiController]
-    [EnableCors("AllowCredentials")]
     public class ToolsController : ControllerBase
     {
         private ToolsService _toolsService;
