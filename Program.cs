@@ -21,11 +21,11 @@ namespace flood_hackathon
             WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    var environment = hostingContext.HostingEnvironment;
+                    var env = hostingContext.HostingEnvironment;
                     config
                         // .SetBasePath(environment.ContentRootPath)
                         .AddJsonFile("appsettings.secrets.json", optional: true)
-                        .AddJsonFile($"appSettings.{environment.EnvironmentName}.json", optional: true)
+                        .AddJsonFile($"appSettings.{env.EnvironmentName}.json", optional: true)
                         .AddEnvironmentVariables();
 
                 })
