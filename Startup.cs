@@ -30,14 +30,11 @@ namespace flood_hackathon
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddCors();
-            services.Configure<CorsOptions>(options =>
-            {
-                options.AddPolicy("AllowCredentials", b =>
-                    b.WithOrigins("*", "https://localhost:4200", "https://flood-hack.azurewebsites.net/")
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .SetIsOriginAllowedToAllowWildcardSubdomains()
+            services.AddCors(options => {
+                options.AddPolicy("CorsPolicy", builder => 
+                    builder.WithOrigins("https://localhost:4200", "https://flood-hack.azurewebsites.net")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
                 );
             });
 
@@ -59,7 +56,7 @@ namespace flood_hackathon
                 app.UseHsts();
             }
 
-            app.UseCors("AllowCredentials");
+            app.UseCors("CorsPolicy");
             app.UseHttpsRedirection();
             app.UseMvc();
         }
