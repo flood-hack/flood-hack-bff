@@ -51,12 +51,6 @@ namespace flood_hackathon.DataAccess
 
         public SearchIndex(IOptions<SearchIndexSettings> settings)
         {
-            // _settings = new SearchIndexSettings()
-            // {
-            //     ServiceName = "flood-hack",
-            //     Index = "tools",
-            //     PrimaryKey = "B5EB2ED3CDEFEBE42E6F033812D5F233"
-            // };
             _settings = settings.Value;
         }
 
