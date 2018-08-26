@@ -10,6 +10,7 @@ using flood_hackathon.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 
 namespace flood_hackathon.Controllers
 {
@@ -19,9 +20,11 @@ namespace flood_hackathon.Controllers
     public class ToolsController : ControllerBase
     {
         private ToolsService _toolsService;
-        public ToolsController(ToolsService toolsService)
+        private SearchIndexSettings _settings;
+        public ToolsController(ToolsService toolsService, IOptions<SearchIndexSettings> settings)
         {
             _toolsService = toolsService;
+            _settings = settings.Value;
         }
 
         [HttpGet]
@@ -71,6 +74,13 @@ namespace flood_hackathon.Controllers
         {
             await _toolsService.DeleteTool("test", cancellationToken);
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("env")]
+        public async Task<IActionResult> GetEnv(CancellationToken cancellationToken)
+        {
+            return new ObjectResult(_settings);
         }
     }
 }

@@ -23,8 +23,9 @@ namespace flood_hackathon
                 {
                     var environment = hostingContext.HostingEnvironment;
                     config
+                        // .SetBasePath(environment.ContentRootPath)
                         .AddJsonFile("appsettings.secrets.json", optional: true)
-                        .AddJsonFile($"appSettings.{environment}.json", false)
+                        .AddJsonFile($"appSettings.{environment.EnvironmentName}.json", optional: true)
                         .AddEnvironmentVariables();
 
                 })
